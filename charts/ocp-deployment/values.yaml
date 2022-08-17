@@ -25,6 +25,9 @@ serviceAccount:
 
 podAnnotations: {}
 
+container:
+  port: 8080
+
 podSecurityContext: {}
   # fsGroup: 2000
 

@@ -46,8 +46,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "ocp-deployment.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "ocp-deployment.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/name: {{ .Release.Name }}
 {{- end }}
 
 {{/*

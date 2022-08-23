@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "ocp-deployment.fullname" . }}
+  name: {{ .Release.Name }}
   labels:
     {{- include "ocp-deployment.labels" . | nindent 4 }}
 spec:

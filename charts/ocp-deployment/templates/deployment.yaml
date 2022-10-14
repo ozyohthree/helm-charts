@@ -39,6 +39,24 @@ spec:
               protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+{{- if .Values.appConfig }}
+          volumeMounts:
+          - name: {{ .Release.Name }}-appconfig-volume
+            mountPath: /app/configs
+{{- end }}         
+          env:
+            - name: APP_NAME
+              value: {{ .Release.Name }}
+{{- if .Values.appConfig }}
+            - name: SPRING_BOOT_CONFIGURATION
+              value: /app/configs
+{{- end }}
+{{- if .Values.appConfig }}
+      volumes:
+      - name: {{ .Release.Name }}-appconfig-volume
+        configMap:
+          name: {{ .Release.Name }}-appconfig
+{{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

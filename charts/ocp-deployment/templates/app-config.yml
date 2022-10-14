@@ -1,0 +1,10 @@
+{{- if .Values.appConfig }}
+apiVersion: v1
+data:
+  application.yml: |-
+    {{- toYaml .Values.appConfig | nindent 4 }}
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: {{ .Release.Name }}-appconfig
+{{- end }}

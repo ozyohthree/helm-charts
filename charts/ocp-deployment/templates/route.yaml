@@ -5,15 +5,10 @@ metadata:
   name: {{ .Release.Name }}
   labels:
     {{- include "ocp-deployment.labels" . | nindent 4 }}
-    app.kubernetes.io/instance: ado-spring-demo
-    app.kubernetes.io/name: ocp-deployment
-    app.kubernetes.io/version: 1.16.0
-  annotations:
-    openshift.io/host.generated: 'true'
 spec:
   to:
     kind: Service
-    name: ado-spring-demo-ocp-deployment
+    name: {{ .Release.Name }}
     weight: 100
   port:
     targetPort: http

@@ -48,7 +48,7 @@ spec:
             - name: APP_NAME
               value: {{ .Release.Name }}
 {{- if .Values.appConfig }}
-            - name: SPRING_BOOT_CONFIGURATION
+            - name: SPRING_CONFIG_LOCATION
               value: /app/configs/application.yml
 {{- end }}
 {{- if .Values.appConfig }}

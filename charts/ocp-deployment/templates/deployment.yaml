@@ -13,8 +13,11 @@ spec:
       {{- include "ocp-deployment.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-    {{- with .Values.podAnnotations }}
       annotations:
+{{- if .Values.appConfig }}
+        configmap-checksum: {{ include (print $.Template.BasePath "/app-config.yaml") . | sha256sum }}
+{{- end }}
+    {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
     {{- end }}
       labels:
@@ -50,12 +53,16 @@ spec:
 {{- if .Values.appConfig }}
             - name: SPRING_CONFIG_LOCATION
               value: /app/configs/application.yml
+            - name: JAVA_INITIAL_MEM_RATIO
+              value: "40"
+            - name: JAVA_MAX_MEM_RATIO
+              value: "75"
 {{- end }}
 {{- if .Values.appConfig }}
       volumes:
       - name: {{ .Release.Name }}-appconfig-volume
         configMap:
-          name: {{ .Release.Name }}-appconfig
+          name: {{ .Release.Name }}-configmap
 {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:

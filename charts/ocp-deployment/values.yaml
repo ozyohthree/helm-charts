@@ -25,11 +25,11 @@ serviceAccount:
   name: ""
 
 # To Configure Spring Configuration via Configmap
-#appConfig:
-#  application:
-#    version: v1.0
-#  greeting:
-#    prefix: NewPrefix
+appConfig:
+  application:
+    version: v1.0
+  greeting:
+    prefix: Prefix
 
 podAnnotations: {}
 
@@ -75,6 +75,14 @@ resources:
   requests:
     cpu: 100m
     memory: 128Mi
+
+#externalSecrets:
+#  clusterStore: azure-cluster-store
+#  secrets: 
+#  - secretName: foo
+#    secretKeys:
+#    - externalKey: secret1
+#      localKey: username
 
 autoscaling:
   enabled: false

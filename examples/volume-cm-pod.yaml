@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Pod   
+metadata:   
+  name: configmap-volume-demo   
+spec:   
+  containers:
+    - name: test-container   
+      image: busybox   
+      command: [ "/bin/sh", "-c", "while :; do echo '.'; env ; sleep 30 ; done" ]   
+      env:   
+        - name: SPECIAL_KEY   
+          valueFrom:   
+            configMapKeyRef:   
+              name: special-config   
+              key: special.how 
+        - name: LOG_LEVEL  
+          valueFrom:  
+            configMapKeyRef:  
+              name: env-config  
+              key: log_level  
+      resources:
+        limits:
+          cpu: 300m
+          memory: 512Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      volumeMounts:
+        - name: appconfig-volume
+          mountPath: /configs  
+  volumes:
+  - name: appconfig-volume
+    configMap:
+      name: env-config
+  restartPolicy: Never

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spring-demo-configmap
+data:
+  application.yml: |-
+    application:
+      version: v1.0
+    greeting:
+      prefix: QA-Prefix
+    shift:
+      rest:
+        disableValidator: true

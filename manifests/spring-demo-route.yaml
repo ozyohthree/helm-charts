@@ -1,0 +1,20 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: spring-demo
+  labels:
+    helm.sh/chart: ocp-deployment-0.1.9
+    app.kubernetes.io/name: spring-demo
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  to:
+    kind: Service
+    name: spring-demo
+    weight: 100
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Allow
+  wildcardPolicy: None

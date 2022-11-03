@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-demo
+  labels:
+    helm.sh/chart: ocp-deployment-0.1.9
+    app.kubernetes.io/name: spring-demo
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: spring-demo
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: spring-demo
+    spec:
+      serviceAccountName: default
+      securityContext:
+        {}
+      containers:
+        - name: ocp-deployment
+          securityContext:
+            {}
+          image: "quay.io/mlacourse/ado-spring-demo:release-a0b822c3e99803f10020247c6ba3703aba19fe72"
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 300m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          volumeMounts:
+          - name: spring-demo-appconfig-volume
+            mountPath: /app/configs         
+          env:
+            - name: APP_NAME
+              value: spring-demo
+            - name: SPRING_CONFIG_LOCATION
+              value: /app/configs/application.yml
+            - name: JAVA_INITIAL_MEM_RATIO
+              value: "40"
+            - name: JAVA_MAX_MEM_RATIO
+              value: "75"
+      volumes:
+      - name: spring-demo-appconfig-volume
+        configMap:
+          name: spring-demo-configmap
